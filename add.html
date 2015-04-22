@@ -1,0 +1,170 @@
+<html>
+	<head>
+		<title>Add - Visual Business Card</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row" id="form">
+				<div class="form-group">
+	    			<label for="name">Name</label>
+	    			<input type="text" class="form-control" id="name" placeholder="Enter name">
+	  			</div>
+			</div>
+			<div class="row">
+				<button id="btnSchool" class="btn btn-lg" type="button">Add an education</button>
+				<button id="btnWork" class="btn btn-lg" type="button">Add a work experience</button>
+				<button id="btnHobby" class="btn btn-lg" type="button">Add a hobby</button>
+				<button id="btnSubmit" class="btn btn-lg btn-success" type="button">Send in form</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function getDropdownFor (name)
+		{
+			var html = '<option>Select a SubCategory</option>';
+			for (var i = 0; i < map[name].length; i++)
+			{
+				html += '<option>' + map[name][i] + '</option>'
+			};
+			return html;
+		}
+
+		function getDropdown ()
+		{
+			var html = '<select id="cat" class="form-control"><option>Select a Category</option>';
+			for (var key in map)
+			{
+				html += '<option>' + key + '</option>'
+			};
+			html += '</select>'
+			return html;
+		}
+
+		var map;
+
+		$(document).ready(function(data)
+		{
+			$.get("getCats.php").then(function (data) {
+				map = JSON.parse(data)
+			})
+
+	        $("#btnWork").click(function()
+			{
+				var html = '<div class="form-group"><label for="work">Work</label>';
+				html += getDropdown();
+				html += '<select id="subCat" class="form-control" disabled><option>Select a SubCategory</option></select>';
+				html += '<input id="value" type="text" class="form-control" placeholder="Specifics">';
+				html += '<input id="time" type="text" class="form-control" placeholder="Experience in years">';
+				html += '</div>';
+				$("#form").append(html).find("select").on('change', function()
+				{
+					var val = $(this).find("option:selected").val();
+					if (val === "Select a Category")
+					{
+						$(this).parent().find("#subCat").html('<option>Select a Category</option>').prop("disabled", true);
+						return;
+					}
+					var dropdown = getDropdownFor(val);
+					$(this).parent().find("#subCat").html(dropdown).prop("disabled", false);
+				});
+			});
+
+			$("#btnSchool").click(function()
+			{
+				var html = '<div class="form-group"><label for="school">School</label>';
+				html += getDropdown();
+				html += '<select id="subCat" class="form-control" disabled><option>Select a SubCategory</option></select>';
+				html += '<input id="value" type="text" class="form-control" placeholder="Specifics">';
+				html += '<input id="time" type="text" class="form-control" placeholder="Experience in years">';
+				html += '</div>';
+				$("#form").append(html).find("select").on('change', function()
+				{
+					var val = $(this).find("option:selected").val();
+					if (val === "Select a Category")
+					{
+						$(this).parent().find("#subCat").html('<option>Select a Category</option>').prop("disabled", true);
+						return;
+					}
+					var dropdown = getDropdownFor(val);
+					$(this).parent().find("#subCat").html(dropdown).prop("disabled", false);
+				});
+			});
+
+			$("#btnHobby").click(function()
+			{
+				var html = '<div class="form-group"><label for="hobby">Hobby</label>';
+				html += getDropdown();
+				html += '<select id="subCat" class="form-control" disabled><option>Select a SubCategory</option></select>';
+				html += '<input id="value" type="text" class="form-control" placeholder="Specifics">';
+				html += '<input id="time" type="text" class="form-control" placeholder="Experience in years">';
+				html += '</div>';
+				$("#form").append(html).find("select").on('change', function()
+				{
+					var val = $(this).find("option:selected").val();
+					if (val === "Select a Category")
+					{
+						$(this).parent().find("#subCat").html('<option>Select a Category</option>').prop("disabled", true);
+						return;
+					}
+					var dropdown = getDropdownFor(val);
+					$(this).parent().find("#subCat").html(dropdown).prop("disabled", false);
+				});
+			});
+
+			$("#btnSubmit").click(function ()
+			{
+				var data = [];
+				data['children'] = [];
+				$(".form-group").each(function()
+				{
+					var cat = $(this).find("#cat");
+					var subCat = $(this).find("#subCat");
+					var value = $(this).find("#value");
+					var time = $(this).find("#time");
+					var name = $(this).find("#name");
+					var level = 101;
+					if (name.length > 0)
+					{
+						data['name'] = name.val();
+					}
+					else
+					{
+						var childFound = false;
+						for (var child in data['children'])
+						{
+							if (child['name'] === cat.val())
+							{
+								for (var child2 in child['children'])
+								{
+									if (child2['name'] === subCat.val())
+									{
+										level = child2['level']+1;
+										child2['children'].push({name: value, value : time, level: level});
+									}
+								}
+								level = child['level']+1;
+								child['children'].push({name : subCat.val(), children: [{name: value, value : time, level: level+1}], level: level});
+								break;
+							}
+						}
+						if (!childFound)
+						{
+							level = level + (data['children'].length * 100);
+							data['children'].push({name : cat.val(), childeren : [{name : subCat.val(), children: [{name: value, value : time, level: level+2}], level: level +1}], level: level});
+						}
+					}
+				});
+				console.log(JSON.stringify(data));
+				$.post("putUser.php?name=" + name, {json: JSON.stringify(data)});
+			});
+		});		
+	</script>
+</html>
