@@ -1,12 +1,13 @@
 #chart {
-	width: 1000px;
-	height: 550px;
+	width: 1175px;
+	height: 600px;
 	background: #ddd;
 }
 
 text {
 	pointer-events: none;
-	font: 20px Verdana;
+	font-family: 'Lato', sans-serif;
+	font-size: 20px;
 }
 
 .grandparent text {

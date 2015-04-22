@@ -3,11 +3,11 @@
 	Author: Mike Bostock
 */
 var visibility = [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
-var themeColor = ["#0000", "#44aa00", "#006680"];
+var themeColor = ["#0000", "#44aa00", "#0066d9"];
 
-var margin = {top: 30, right: 0, bottom: 0, left: 0},
-	width = 1000,
-	height = 550 - margin.top - margin.bottom,
+var margin = {top: 40, right: 0, bottom: 0, left: 0},
+	width = 1175,
+	height = 600 - margin.top - margin.bottom,
 	formatNumber = d3.format(",d"),
 	transitioning;
 
