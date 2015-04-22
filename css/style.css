@@ -16,7 +16,7 @@ text {
 
 rect {
 	stroke: #fff;
-	stroke-width: 0px;
+	stroke-width: 2px;
 }
 
 rect.parent,
@@ -35,6 +35,7 @@ rect.parent,
 .children rect.parent,
 .grandparent rect {
 	cursor: pointer;
+	stroke: #000000;
 }
 
 .children:hover rect.child {
@@ -43,5 +44,6 @@ rect.parent,
 }
 
 .children:hover rect.parent {
-	opacity: 0;
+	stroke-width: 4px;
+	stroke: #fff;
 }
