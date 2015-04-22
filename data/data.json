@@ -1,0 +1,53 @@
+{
+	"name": "John Doe",
+	"children": [
+		{
+			"name": "Technical",
+			"level": "101",
+			"children": [
+				{
+					"name": "Software Development",
+					"level": "102",
+					"children": [
+					{"name": "Languages", "level": "103", "value": 1},
+					{"name": "Methods", "level": "103", "value": 1},
+					{"name": "asdf", "level": "103", "value": 1}
+					]
+				},
+				{
+					"name": "Electronics",
+					 "level": "102",
+					"children": [
+						{"name": "Robotics", "level": "103", "value": 1},
+						{"name": "Home Automation", "level": "103", "value": 1},
+						{"name": "Industrial Automation", "level": "103", "value": 1}
+					]
+				}
+			]
+		},
+		{
+			"name": "Business",
+			"level": "201",
+			"children": [
+				{
+					"name": "Management",
+					"level": "202",
+					"children": [
+					{"name": "First-Line", "level": "203", "value": 1},
+					{"name": "Middle", "level": "203", "value": 1},
+					{"name": "Top-Level", "level": "203", "value": 1}
+					]
+				},
+				{
+					"name": "Finance",
+					 "level": "202",
+					"children": [
+						{"name": "Accounting", "level": "203", "value": 1},
+						{"name": "Analysis", "level": "203", "value": 1},
+						{"name": "Controlling", "level": "203", "value": 1}
+					]
+				}
+			]
+		}
+	]
+}
